@@ -9,18 +9,12 @@ RUN dnf -y install \
 # Setup environment variables
 ENV BITCOIN_DATA=/home/bitcoin/.bitcoin
 
-# Create bitcoin data directory
-RUN mkdir -p ${BITCOIN_DATA}
-
-# Set permissions
-RUN chown -R bitcoin:bitcoin ${BITCOIN_DATA} && \
+# Create bitcoin data directory and required subdirectories
+RUN mkdir -p ${BITCOIN_DATA}/signet/wallets && \
     chmod -R 755 ${BITCOIN_DATA}
 
 # Expose ports (38333 for P2P, 38332 for RPC)
 EXPOSE 38333 38332
-
-# Switch to bitcoin user
-USER bitcoin
 
 # Run bitcoind with all configurations
 CMD ["bitcoind", \
